@@ -6,18 +6,26 @@
 #include <string>
 using namespace ariel;
 using namespace std;
-
-TEST_CASE("Fill an 100 x 100 board 1 by 1")
+TEST_CASE("Fill board with empty string - exception should be thrown")
 {
     Board board;
+    CHECK_THROWS(board.post(0,0,Direction::Horizontal,""));
+    CHECK_THROWS(board.post(0,0,Direction::Vertical,""));
+}
+TEST_CASE("Fill an 100 x 100 board 1 by 1")
+{
+    Board board, board2;
+
     for (unsigned int i = 0; i < 100; ++i) {
         for (unsigned int j = 0; j < 100; ++j) {
             board.post(i,j,Direction::Horizontal,"Z");
+            board2.post(i,j,Direction::Vertical,"Z");
         }
     }
     for (unsigned int i = 0; i < 100; ++i) {
         for (unsigned int j = 0; j < 100; ++j) {
             CHECK(board.read(i,j,Direction::Horizontal,1) == "Z");
+            CHECK(board2.read(i,j,Direction::Vertical,1) == "Z");
         }
     }
 }
